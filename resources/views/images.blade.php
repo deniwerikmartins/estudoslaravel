@@ -22,7 +22,7 @@
 
                             
                         <div class="img-container">
-                            <img src="/images/{{ $contato->path }}" alt="">
+                            <img src="{{ $contato->path }}" alt="">
                             {{ $contato->nome }}        
                         </div>
                         
