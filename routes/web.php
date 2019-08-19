@@ -1,6 +1,7 @@
 <?php
 
 use App\Post;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,3 +150,52 @@ Route::get('restore', function(){
 Route::get('forcedelete', function(){
 	Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
 });
+
+// 1 to 1 relationship
+Route::get('user/{id}/post', function($id){
+	return User::find($id)->post;
+});
+
+
+// 1 to 1 inverse relationship
+Route::get('post/{id}/user', function($id){
+	return Post::find($id)->user->name;
+});
+
+// 1 to many relationship
+Route::get('posts', function(){
+	$user = User::find(1);
+
+	foreach ($user->posts as $post) {
+		echo $post->title;
+	}
+});
+
+//many to many ralationship
+Route::get('user/{id}/role',function($id){
+	/*$user = User::find($id);
+	$roles = $user->roles;
+	foreach ($user->roles as $role) {
+		return $role->name;
+	}*/
+
+	$user = User::find($id)->roles()->orderBy('id','desc')->get();
+
+	return $user;
+
+});
+
+// accessing the intermediate table / pivot table
+Route::get('user/pivot',function(){
+
+	$user = User::find(1);
+
+	foreach ($user->roles as $role) {
+		echo $role->pivot->created_at;
+		//echo $role->pivot->updated_at;
+		//return $role->pivot;
+	}
+
+});
+
+//Route::get()

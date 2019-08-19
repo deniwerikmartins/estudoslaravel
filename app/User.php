@@ -32,6 +32,15 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     } 
 
+    public function roles()
+    {
+        // to costumize table names and columns followe the format below
+        //return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
+        
+        return $this->belongsToMany('App\Role')->withPivot(['created_at', 'updated_at']);
+
+    } 
+
     public function isAdmin()
     {
         if ($this->role->name == 'administrator') {
@@ -40,4 +49,15 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function post()
+    {
+        return $this->hasOne('App\Post');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
 }
