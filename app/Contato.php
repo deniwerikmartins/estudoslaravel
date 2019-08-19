@@ -13,7 +13,7 @@ class Contato extends Model
 
     public function getPathAttribute($value)
     {
-
+    	return $this->directory . $value;
     }
     
 }
