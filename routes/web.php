@@ -2,6 +2,9 @@
 
 use App\Post;
 use App\User;
+use App\Photo;
+use App\Tag;
+use App\Country;
 
 /*
 |--------------------------------------------------------------------------
@@ -198,4 +201,59 @@ Route::get('user/pivot',function(){
 
 });
 
-//Route::get()
+// accessing the intermediate table / pivot table 2
+Route::get('user/country', function(){
+	$country = Country::find(4);
+
+	foreach ($country->posts as $post) {
+		return $post->title;
+	}
+});
+
+// polymorphic relations 
+
+Route::get('user/photos', function(){
+	$user = User::find(1);
+
+	foreach ($user->photos as $photo) {
+		return $photo;
+	}	
+});
+
+Route::get('post/{id}/photos', function($id){
+	$post = Post::find($id);
+
+	foreach ($post->photos as $photo) {
+		echo $photo->path . "<br>";
+	}	
+});
+
+Route::get('photo/{id}/post', function($id){
+
+	$photo = Photo::findOrFail($id);
+
+	
+	return $photo->imageable;
+
+	//$imageable = $photo->imageable_id;
+});
+
+
+//polymorphic many to many
+Route::get('post/tag', function(){
+	$post = Post::find(1);
+
+	foreach ($post->tags as $tag) {
+
+		echo $tag->name;
+	}
+});
+
+Route::get('tag/post', function(){
+	$tag = Tag::find(2);
+
+	foreach ($tag->posts as $post) {
+		echo $post->title;
+		
+	}
+});
