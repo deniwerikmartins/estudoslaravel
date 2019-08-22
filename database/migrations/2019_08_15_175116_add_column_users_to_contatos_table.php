@@ -14,7 +14,7 @@ class AddColumnUsersToContatosTable extends Migration
     public function up()
     {
         Schema::table('contatos', function (Blueprint $table) {
-            $table->string('path');
+            $table->string('path')->nullable();
         });
     }
 

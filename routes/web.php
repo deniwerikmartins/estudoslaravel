@@ -5,6 +5,8 @@ use App\User;
 use App\Photo;
 use App\Tag;
 use App\Country;
+use App\Contato;
+use App\Telefone;
 
 /*
 |--------------------------------------------------------------------------
@@ -256,4 +258,75 @@ Route::get('tag/post', function(){
 		echo $post->title;
 		
 	}
+});
+
+
+/////
+Route::get('getuser',function(){
+	$users = User::where(['country_id' => null, 'email' => 'fulano@tal.com'])->get();
+
+	foreach ($users as $key => $user) {
+		echo $user->name;
+	}
+
+	/*$posts = Post::where('id', 1)->orderBy('id', 'desc')->take(1)->get();
+
+	return $posts;*/
+});
+
+Route::get('getcontatoswithtelefone', function(){
+	/*$contatos = Contato::all();
+	//return $contatos;
+	
+	foreach ($contatos as $contato) {
+		echo ($contato->telefones);
+	}*/
+
+	$contatos = Contato::has('telefones')->get();
+
+	foreach ($contatos as $key => $contato) {
+		$contato->telefones;
+	}
+
+	return $contatos;
+
+	// Retrieve all posts with at least one comment containing words like foo%
+	/*$contatos = Contato::whereHas('telefones', function ($query) {
+	    $query->where('user_id', '=', '$id');
+	})->get();*/
+
+	 /*$telefones = Telefone::all();
+
+	 foreach ($telefones as $key => $telefone) {
+	 	$x = $telefone->contato;
+	 	$x->telefones;
+	 	//echo $x;
+	 	echo($key);
+
+
+	 	//$tels = $x->telefones();
+	 	//return $tels->telefone;
+	 	//dd($tels);
+	 	//dd($tels);
+	 	//echo($x);
+	 	
+	 	//foreach ($tels as $tel) {
+	 		//dd($tels);	
+	 	//}
+
+	 }*/
+
+});
+
+Route::get('getcontatoswithouttelefone', function(){
+
+	$contatos = Contato::doesntHave('telefones')->get();
+
+	return $contatos;
+
+
+	/*$contatos = Contato::whereDoesntHave('telefones', function ($query) {
+	    $query->where('user_id', '=', '$id');
+	})->get();*/
+
 });
