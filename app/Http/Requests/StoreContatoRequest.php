@@ -26,11 +26,10 @@ class StoreContatoRequest extends FormRequest
         return [
             'nome' => 'required',
             'organizacao' => 'required',
-            'telefone' => 'required',
             'email' => 'required',
             'grupo' => 'required',
             'endereco' => 'required',
-            'file' => 'required',
+            //'file' => 'required',
         ];
     }
 }
